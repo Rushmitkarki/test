@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 const Register = () => {
+  // Make a usestate for 5 fields
+  const [firstName, setfirstName] = useState("");
+  const [lastName, setlastName] = useState("");
+  const [email, setemail] = useState("");
+  const [Password, setPassword] = useState("");
+  // const [confirmPassword, setconfirmPassword] = useState('')
+  // Make a each function for changing the values
+  const handelfirstname = (e) => {
+    setfirstName(e.target.value);
+  };
   return (
     <>
       <div className="container mt-2">
         <h1>Create an account</h1>
         <form className="w-50">
-          <label>First Name</label>
+          <label>First Name:{firstName}</label>
           <input
+            onChange={handelfirstname}
             type="text"
             className="form-control"
             placeholder="Enter your first name"
