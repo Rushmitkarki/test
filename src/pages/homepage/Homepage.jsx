@@ -1,10 +1,15 @@
-import React from "react";
-import Navbar from "../../components/Navbar";
+import React, { useEffect } from "react";
+import { testApi } from "../../apis/api";
+
 const Homepage = () => {
-  return (
-    <div>
-      
-    </div>
-  );
+  // print Hello!, when page load(Automactically)
+  useEffect(() => {
+    console.log("Hello!");
+    // trigger testApi
+    testApi().then((res) => {
+      console.log(res);
+    });
+  });
+  return <div>Home page</div>;
 };
 export default Homepage;

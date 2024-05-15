@@ -5,10 +5,15 @@ import Homepage from "./pages/homepage/Homepage";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 
+//Tosat Config
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function App() {
   return (
     <Router>
       <Navbar />
+      <ToastContainer/>
       <Routes>
         <Route path="/Homepage" element={<Homepage />} />
         <Route path="/Login" element={<Login />} />

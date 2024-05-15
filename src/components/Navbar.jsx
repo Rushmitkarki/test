@@ -6,7 +6,7 @@ const Navbar = () => {
     <>
       <div className="container mt-2"></div>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
+        <div className="container-fluid">
           <a className="navbar-brand" href="#">
             Ruhsmit <span className="text-danger">Karki</span>
           </a>
@@ -19,26 +19,30 @@ const Navbar = () => {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <a className="nav-link active" aria-current="page" href="#">
                   Home
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
+              <li className="nav-item">
+                <a className="nav-link" href="#">
                   Link
                 </a>
               </li>
             </ul>
 
-            <Link to={"/login"} class="btn btn-primary" type="submit">
+            <Link to={"/login"} className="btn btn-primary" type="submit">
               Login
             </Link>
-            <Link to={"/Register"} class="btn btn-success ms-2" type="submit">
+            <Link
+              to={"/Register"}
+              className="btn btn-success ms-2"
+              type="submit"
+            >
               Register
             </Link>
           </div>
