@@ -159,6 +159,7 @@ const AdminDashboard = () => {
               <th scope="col">Product Description</th>
               <th scope="col">Product Category</th>
               <th scope="col">Actions</th>
+              {/* Comment */}
             </tr>
           </thead>
           <tbody>
