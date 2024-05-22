@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import { loginUserApi } from "../../apis/api";
 
 const Login = () => {
   // make ausestate for each input field
@@ -41,15 +42,36 @@ const Login = () => {
     if (!validate()) {
       return;
     }
-
-    toast.success("Form Submitted Successfully");
+    // make a object of the data
 
     const data = {
       email: email,
       password: password,
     };
+    // Api request
 
-    console.log(data);
+    loginUserApi(data).then((res) => {
+      // Received data : success, message
+      if (res.data.success === false) {
+        toast.error(res.data.message);
+      } else {
+        toast.success(res.data.message);
+
+        // success-bool, message-text, token-text, user-data -json object ako xa data
+
+        // setting token and  userdata in local storage
+
+        localStorage.setItem("token", res.data.token);
+
+        // setting the user data
+        const convertedData = JSON.stringify(res.data.userData);
+
+        // local storage set
+
+        localStorage.setItem("user", convertedData);
+        window.location.href = "/Homepage";
+      }
+    });
   };
 
   return (

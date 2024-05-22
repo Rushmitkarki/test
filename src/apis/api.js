@@ -14,3 +14,6 @@ export const testApi = () => api.get("/test");
 
 // Register api
 export const registerUserApi = (data) => api.post("/api/user/create", data);
+
+// Login api
+export const loginUserApi = (data) => api.post("/api/user/login", data);
