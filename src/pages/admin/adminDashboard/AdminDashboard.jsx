@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
+import { createProductApi } from "../../../apis/api";
 
 const AdminDashboard = () => {
   const [productName, setProductName] = useState("");
@@ -14,6 +16,28 @@ const AdminDashboard = () => {
 
     setProductImage(file);
     setPreviewImage(URL.createObjectURL(file));
+  };
+
+  // handle submmit immage
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    //  make a form data object(text , file)
+    const formData = new FormData();
+    formData.append("productName", productName);
+    formData.append("productDescription", productDescription);
+    formData.append("productPrice", productPrice);
+    formData.append("productCategory", productCategory);
+    formData.append("productImage", productImage);
+
+    // make a api call
+    createProductApi(formData).then((res) => {
+      if (res.data.success === false) {
+        toast.error(res.data.message);
+      } else {
+        toast.success(res.data.message);
+      }
+    });
   };
 
   return (
@@ -141,7 +165,11 @@ const AdminDashboard = () => {
                     >
                       Close
                     </button>
-                    <button type="button" className="btn btn-primary">
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={handleSubmit}
+                    >
                       Save changes
                     </button>
                   </div>

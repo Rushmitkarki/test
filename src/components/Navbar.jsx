@@ -3,6 +3,12 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const user = JSON.parse(localStorage.getItem("user"));
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    window.location.href = "/";
+  };
   return (
     <nav className="navbar navbar-expand-lg">
       <div className="container-fluid">
@@ -57,7 +63,7 @@ const Navbar = () => {
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" href="#" onClick={handleLogout}>
                         Logout
                       </a>
                     </li>
