@@ -31,13 +31,16 @@ const AdminDashboard = () => {
     formData.append("productImage", productImage);
 
     // make a api call
-    createProductApi(formData).then((res) => {
-      if (res.data.success === false) {
-        toast.error(res.data.message);
-      } else {
-        toast.success(res.data.message);
-      }
-    });
+    createProductApi(formData)
+      .then((res) => {
+        // for successfull api
+        if (res.status === 201) {
+          toast.success(res.data.message);
+        }
+      })
+      .catch((error) => {
+        // for error status code
+      });
   };
 
   return (
