@@ -1,14 +1,13 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import "./App.css";
-import Navbar from "./components/Navbar";
-import Homepage from "./pages/homepage/Homepage";
-import Login from "./pages/login/Login";
-import Register from "./pages/register/Register";
-
-//Tosat Config
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "./App.css";
+import Navbar from "./components/Navbar";
 import AdminDashboard from "./pages/admin/adminDashboard/AdminDashboard";
+
+import UpdateProduct from "./pages/admin/updateProduct/UpdateProduct";
+import Login from "./pages/login/Login";
+import Register from "./pages/register/Register";
 
 function App() {
   return (
@@ -16,10 +15,11 @@ function App() {
       <Navbar />
       <ToastContainer />
       <Routes>
-        <Route path="/Homepage" element={<Homepage />} />
-        <Route path="/Login" element={<Login />} />
-        <Route path="/Register" element={<Register />} />
+        <Route path="/" element={<AdminDashboard />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/update/:id" element={<UpdateProduct />}></Route>
       </Routes>
     </Router>
   );
