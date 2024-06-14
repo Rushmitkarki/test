@@ -5,9 +5,8 @@ const Navbar = () => {
   const user = JSON.parse(localStorage.getItem("user"));
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    window.location.href = "/";
+    localStorage.clear();
+    window.location.href = "/login";
   };
   return (
     <nav className="navbar navbar-expand-lg">

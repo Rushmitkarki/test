@@ -69,7 +69,11 @@ const Login = () => {
         // local storage set
 
         localStorage.setItem("user", convertedData);
-        window.location.href = "/Homepage";
+        if (res.data.userData.isAdmin) {
+          window.location.href = "/admin/dashboard";
+        } else {
+          window.location.href = "/";
+        }
       }
     });
   };
