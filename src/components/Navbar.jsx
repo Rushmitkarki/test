@@ -71,11 +71,15 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <Link to={"/login"} className="btn" type="submit">
+                <Link to={"/login"} className="btn btn-success" type="submit">
                   Login
                 </Link>
 
-                <Link to={"/register"} className="btn" type="submit">
+                <Link
+                  to={"/register"}
+                  className="btn btn-primary"
+                  type="submit"
+                >
                   Register
                 </Link>
               </>

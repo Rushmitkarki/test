@@ -16,6 +16,11 @@ const config = {
     }
 }
 
+// Class work
+export const stopWatch =  () => Api.get ('/stopwatch')
+
+
+
 // Test API
 export const testApi = () => Api.get('/test')
 

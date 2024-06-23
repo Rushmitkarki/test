@@ -10,6 +10,7 @@ import Homepage from "./pages/homepage/Homepage";
 import Login from "./pages/login/Login";
 import Profile from "./pages/profile/Profile";
 import Register from "./pages/register/Register";
+import StopWatch from "./pages/test/StopWatch";
 import AdminRoutes from "./protected_routes/AdminRoutes";
 import UserRoutes from "./protected_routes/UserRoutes";
 
@@ -19,9 +20,11 @@ function App() {
       <Navbar />
       <ToastContainer />
       <Routes>
+        <Route path="/StopWatch" element={<StopWatch />}></Route>
         <Route path="/" element={<Homepage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+
         <Route element={<AdminRoutes />}>
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/update/:id" element={<UpdateProduct />} />
