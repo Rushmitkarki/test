@@ -1,13 +1,10 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const user = JSON.parse(localStorage.getItem("user"));
 
-  const handleLogout = () => {
-    localStorage.clear();
-    window.location.href = "/login";
-  };
   return (
     <nav className="navbar navbar-expand-lg">
       <div className="container-fluid">
@@ -41,28 +38,36 @@ const Navbar = () => {
           <form className="d-flex" role="search">
             {user ? (
               <>
-                <div class="dropdown">
+                <div className="dropdown">
                   <button
-                    class="btn btn-secondary dropdown-toggle"
+                    className="btn btn-secondary dropdown-toggle"
                     type="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
                     Welcome {user.firstName}
                   </button>
-                  <ul class="dropdown-menu">
+                  <ul className="dropdown-menu">
                     <li>
-                      <a class="dropdown-item" href="/profile">
+                      <Link className="dropdown-item" to="/profile">
                         Profile
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="/settings">
+                      <a className="dropdown-item" href="/settings">
                         Settings
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#" onClick={handleLogout}>
+                      <a
+                        className="dropdown-item"
+                        href="#"
+                        onClick={() => {
+                          localStorage.removeItem("user");
+                          localStorage.removeItem("token");
+                          window.location.href = "/login";
+                        }}
+                      >
                         Logout
                       </a>
                     </li>
@@ -71,15 +76,11 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <Link to={"/login"} className="btn btn-success" type="submit">
+                <Link to={"/login"} className="btn" type="submit">
                   Login
                 </Link>
 
-                <Link
-                  to={"/register"}
-                  className="btn btn-primary"
-                  type="submit"
-                >
+                <Link to={"/register"} className="btn" type="submit">
                   Register
                 </Link>
               </>

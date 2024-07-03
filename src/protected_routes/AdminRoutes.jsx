@@ -1,16 +1,16 @@
-import React from 'react'
-import { Outlet, Navigate } from 'react-router-dom';
+import React from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
 
 const AdminRoutes = () => {
-//   get user details first
-const user = JSON.parse(localStorage.getItem("user"));
-// check user
-// check isAdmin = true
-// if true : Access all the route of admin(outlet)
-// if false: Redirect to login page
+  // get user information
+  const user = JSON.parse(localStorage.getItem('user'));
 
-return user != null && user.isAdmin ? <Outlet/> : <Navigate to={"/login"}/>
+  // check user
+  // check isAdmin =true
+  // if true, return the following routes
+  // if false, return to homepage
 
-}
+  return user != null && user.isAdmin ? <Outlet /> : <Navigate to={'/login'} />;
+};
 
-export default AdminRoutes
+export default AdminRoutes;

@@ -1,160 +1,176 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import { getSingleProductApi, updateProduct } from "../../../apis/api";
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { getSingleProductApi, updateProductApi } from '../../../api/api';
 
 const UpdateProduct = () => {
-  // get id from url
-  const { id } = useParams();
+  // Get the id from the URL
+  const { id } = useParams('id');
 
-  // get product information (Backend)
+  const [productName, setProductName] = useState('');
+  const [productDescription, setProductDescription] = useState('');
+  const [productPrice, setProductPrice] = useState('');
+  const [productCategory, setProductCategory] = useState('');
+  const [productImage, setProductImage] = useState(null);
+
+  const [oldImage, setOldImage] = useState(null);
+  const [previewNewImage, setPreviewNewImage] = useState(null);
+
   useEffect(() => {
+    // Fetch the product details from the API
     getSingleProductApi(id)
       .then((res) => {
-        console.log(res.data);
-
-        //res -> data(message, success, product(pn,pp,pc) )
-        //res.data.product.productName
+        console.log(res.data.product);
         setProductName(res.data.product.productName);
+        setProductDescription(res.data.product.productDescription);
         setProductPrice(res.data.product.productPrice);
         setProductCategory(res.data.product.productCategory);
-        setProductDescription(res.data.product.productDescription);
         setOldImage(res.data.product.productImage);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((err) => {
+        console.log(err);
       });
-  }, {});
+    // set the product details to the state
+  }, [id]);
 
-  // fill all the info in each fields
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
 
-  // make a use state
-  const [productName, setProductName] = useState("");
-  const [productPrice, setProductPrice] = useState("");
-  const [productCategory, setProductCategory] = useState("");
-  const [productDescription, setProductDescription] = useState("");
-
-  // state for image
-  const [productNewImage, setProductNewImage] = useState(null);
-  const [previewNewImage, setPreviewNewImage] = useState(null);
-  const [oldImage, setOldImage] = useState("");
-
-  // image upload handler
-  const handleImage = (event) => {
-    const file = event.target.files[0];
-    setProductNewImage(file); // for backend
+    setProductImage(file);
     setPreviewNewImage(URL.createObjectURL(file));
   };
 
-  // update product
-  const handleUpdate = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    // make a form data (text, files)
     const formData = new FormData();
-    formData.append("productName", productName);
-    formData.append("productPrice", productPrice);
-    formData.append("productCategory", productCategory);
-    formData.append("productDescription", productDescription);
-
-    if (productNewImage) {
-      formData.append("productImage", productNewImage);
+    formData.append('productName', productName);
+    formData.append('productDescription', productDescription);
+    formData.append('productPrice', productPrice);
+    formData.append('productCategory', productCategory);
+    if (productImage) {
+      formData.append('productImage', productImage);
     }
 
-    // call update product API
-    updateProduct(id, formData)
+    // Call the updateProductApi function from the API
+    updateProductApi(id, formData)
       .then((res) => {
         if (res.status === 201) {
           toast.success(res.data.message);
         }
       })
-      .catch((error) => {
-        if (error.response.status === 500) {
-          toast.error(error.response.data.message);
+      .catch((err) => {
+        if (err.response.status === 500) {
+          toast.error(err.response.data.message);
+        } else if (err.response.status === 400) {
+          toast.error(err.response.data.message);
+        } else {
+          toast.error('Something went wrong');
         }
       });
   };
-
   return (
     <>
-      <div className="container mt-3">
-        <h2>
-          Update product for <span className="text-danger">{productName}</span>
-        </h2>
-
-        <div className="d-flex gap-3">
-          <form action="">
-            <label htmlFor="">Product Name</label>
-            <input
-              value={productName}
-              onChange={(e) => setProductName(e.target.value)}
-              className="form-control"
-              type="text"
-              placeholder="Enter your product name"
-            />
-
-            <label className="mt-2" htmlFor="">
-              Product Price
-            </label>
-            <input
-              value={productPrice}
-              onChange={(e) => setProductPrice(e.target.value)}
-              className="form-control"
-              type="number"
-              placeholder="Enter your product name"
-            />
-
-            <label className="mt-2">Choose category</label>
-            <select
-              value={productCategory}
-              onChange={(e) => setProductCategory(e.target.value)}
-              className="form-control"
-            >
-              <option value="plants">Plants</option>
-              <option value="electronics">Electronics</option>
-              <option value="gadgets">Gadgets</option>
-              <option value="furniture">Furniture</option>
-            </select>
-
-            <label className="mt-2">Enter description</label>
-            <textarea
-              value={productDescription}
-              onChange={(e) => setProductDescription(e.target.value)}
-              className="form-control"
-            ></textarea>
-
-            <label className="mt-2">Choose product Image</label>
-            <input
-              onChange={handleImage}
-              type="file"
-              className="form-control"
-            />
-
-            <button
-              onClick={handleUpdate}
-              className="btn btn-danger w-100 mt-2"
-            >
-              Update Product
-            </button>
-          </form>
-          <div className="image section">
-            <h6>Previewing old image</h6>
-            <img
-              height={"200px"}
-              width={"300px"}
-              className="image-fluid rounded-4 object-fit-cover"
-              src={`http://localhost:5000/products/${oldImage}`}
-            />
-
-            {previewNewImage && (
-              <>
-                <h6>New Image</h6>
-                <img
-                  height={"200px"}
-                  width={"200px"}
-                  className="image-fluid rounded-4 object-fit-cover"
-                  src={previewNewImage}
+      <div className='container'>
+        <div>
+          <h2 className='text-center mb-4'>Update Product For {productName}</h2>
+        </div>
+        <div className='row'>
+          <div className='col-4'>
+            <form>
+              <div className='mb-3'>
+                <label
+                  htmlFor='exampleFormControlInput1'
+                  className='form-label'>
+                  Product Name
+                </label>
+                <input
+                  className='form-control'
+                  placeholder='Product Name'
+                  onChange={(e) => setProductName(e.target.value)}
+                  value={productName}
                 />
+              </div>
+              <div className='mb-3'>
+                <label
+                  htmlFor='productDescription'
+                  className='form-label'>
+                  Product Description
+                </label>
+                <textarea
+                  className='form-control'
+                  onChange={(e) => setProductDescription(e.target.value)}
+                  rows='3'
+                  value={productDescription}></textarea>
+              </div>
+              <div className='mb-3'>
+                <label
+                  htmlFor='exampleFormControlInput1'
+                  className='form-label'>
+                  Product Price
+                </label>
+                <input
+                  className='form-control'
+                  placeholder='Product Price'
+                  onChange={(e) => setProductPrice(e.target.value)}
+                  value={productPrice}
+                />
+              </div>
+              <div className='mb-3'>
+                <label
+                  htmlFor='exampleFormControlInput1'
+                  className='form-label'>
+                  Product Category
+                </label>
+                <select
+                  className='form-control'
+                  onChange={(e) => setProductCategory(e.target.value)}
+                  defaultValue={productCategory}>
+                  <option value='1'>Flower</option>
+                  <option value='2'>Category 2</option>
+                  <option value='3'>Category 3</option>
+                </select>
+              </div>
+              <div className='mb-3'>
+                <label
+                  htmlFor='exampleFormControlInput1'
+                  className='form-label'
+                  onChange={(e) => setProductImage(e.target.value)}>
+                  Product Image
+                </label>
+                <input
+                  onChange={handleImageChange}
+                  className='form-control'
+                  type='file'
+                />
+              </div>
+              <div className=''>
+                <button
+                  onClick={handleSubmit}
+                  className='btn btn-danger btn-block w-100 '>
+                  Update Product
+                </button>
+              </div>
+            </form>
+          </div>
+          <div className='col-8'>
+            {!previewNewImage ? (
+              <div className='mb-2'>
+                <img
+                  src={`http://localhost:5000/products/${oldImage}`}
+                  className='img-fluid rounded w-100 h-50'
+                  alt='product'
+                />
+              </div>
+            ) : (
+              <>
+                <div className='mb-2'>
+                  <img
+                    src={previewNewImage}
+                    className='img-fluid rounded w-100 h-50'
+                    alt='product'
+                  />
+                </div>
               </>
             )}
           </div>

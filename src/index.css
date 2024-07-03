@@ -1,6 +1,5 @@
-.carousel .carousel-inner img{
-    height:60vh;
-    width: 100%;
-    object-fit: coverq;
-    
+.carousel .carousel-inner img {
+  height: 60vh;
+  width: 75%;
+  object-fit: cover;
 }
